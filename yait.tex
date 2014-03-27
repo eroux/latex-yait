@@ -1,0 +1,189 @@
+\documentclass[a4paper]{article}
+
+
+
+\usepackage[top=1.5cm, bottom=1.5cm, left=2cm, right=2cm]{geometry}
+\usepackage{ifxetex}
+\usepackage{ifluatex}
+\newif\ifmodernTeX
+\modernTeXfalse
+\ifluatex
+  \modernTeXtrue
+\fi
+\ifxetex
+  \modernTeXtrue
+\fi
+
+\ifmodernTeX
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+
+\setmainfont[
+      BoldFont=LinLibertineOZ,
+      BoldItalicFont=LinLibertineOZI,
+      SmallCapsFont=LinLibertineO,
+      SmallCapsFeatures={Letters=SmallCaps},
+]{LinuxLibertineO}
+
+\newfontfamily\spacedFont[LetterSpace=2.0]{LinuxLibertineO}
+
+\newfontfamily\displayFont[Extension=.otf,
+      BoldFont=LinLibertine_DR,%fake
+      ItalicFont=LinLibertine_DR,%fake
+      BoldItalicFont=LinLibertine_DR,%fake
+      ]{LinLibertine_DR}
+
+\setsansfont[Extension=.otf, 
+      BoldFont=LinBiolinum_RB,
+      ItalicFont=LinBiolinum_RI,
+      BoldItalicFont=LinBiolinum_RB,% fake
+      SmallCapsFont=LinBiolinum_R,
+      SmallCapsFeatures={Letters=SmallCaps},
+      ]{LinBiolinum_R}
+
+\setmonofont[Extension=.otf]{Inconsolata}
+
+\else
+
+\let\spacedFont\relax
+\let\displayFont\relax
+
+\fi
+
+%%%%%%%%%%%%%%%%%%%%%%
+% content definition %
+%%%%%%%%%%%%%%%%%%%%%%
+
+\title{Title of the invoice}
+\date{\today }
+\xdef\invoicenum{001}
+\xdef\companyname{Comp.}
+\xdef\companyaddress{foo, bar street, XXXXX City}
+\xdef\companysiren{XXX XXXX XXXX}
+\xdef\companytel{XX\,XX\,XX\,XX\,XX}
+\xdef\companyemail{xxx@xxx.xxx}
+\xdef\bankiban{XXXX\,XXXX\,XXXX\,XXXX\,XXXX\,XXXX\,XXXX}
+\xdef\bankbic{XXX\,XXX\,XXX}
+\long\xdef\conditions{write the sell conditions here
+
+on several lines}
+
+\makeatletter
+\let\thetitle\@title
+\makeatother
+
+\usepackage[pdfencoding=auto,unicode, bookmarks=false, colorlinks=false, pdfborder={0 0 0},pdftitle={Invoice from XXX}, pdfauthor={XXX}, pdfsubject={Invoice}, pdfkeywords={Invoice, XXX}]{hyperref}
+\pagestyle{empty}
+\usepackage[table]{xcolor}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabu}
+\usepackage{multicol}
+\usepackage[norule]{footmisc}
+
+%%%%%%%%%%%%%%%%%%%%%
+% color definitions %
+%%%%%%%%%%%%%%%%%%%%%
+
+\colorlet{headcolor}{gray!21}
+\colorlet{tablecolor1}{gray!4}
+\colorlet{tablecolor2}{gray!11}
+\colorlet{footnotegray}{gray!90}
+
+% the right shift of the right blocks
+\xdef\rightalignment{11cm}
+
+% footnote style
+\def\footnotestyle#1{%
+  {\textsf{\color{footnotegray}\fontsize{3mm}{0mm}\selectfont #1}}%
+}
+
+% change color of footnote marks
+\makeatletter
+\renewcommand\@makefntext[1]{%
+  \parindent 1em\noindent
+  \hb@xt@1.8em{%
+  \hss\@textsuperscript{\normalfont\color{footnotegray}\@thefnmark}}#1}
+\makeatother
+
+\begin{document}
+
+\parbox[b][2cm][t]{\rightalignment}{{\color{gray!95}\displayFont\fontsize{1.5cm}{1.5cm}\selectfont %
+\vbox to 1cm{\vss %
+%
+\companyname{}%
+%
+}}
+\vskip 3mm%
+{\fontsize{0.44cm}{0.5cm}%
+\emph{thank you for your confidence!}%
+}
+}%
+%
+\parbox[b][2cm][t]{0.35\textwidth}{\ttfamily {%
+{\color{gray!95}\fontsize{1.5cm}{1.5cm}\selectfont %
+\vbox to 1cm{\vss \leavevmode \kern -1mm %
+%
+Invoice%
+%
+}}}}
+
+\kern -5mm
+
+\leavevmode\kern \rightalignment \parbox{0.35\textwidth}{\ttfamily N\textsuperscript{o} \invoicenum\\
+\today }
+
+\vskip 0.7cm
+
+\leavevmode\kern \rightalignment\kern -3mm \colorbox{gray!85}{
+  \kern 1mm\begin{minipage}[t]{0.5\textwidth}
+    \color{white}
+    \vskip 2mm
+    Company \textbf{Foo},\\
+    Temple Bar,\\
+    Dublin.\\
+    \vspace*{-3mm}%
+  \end{minipage}
+}
+
+\vskip 2.3cm
+
+\begin{center}
+{\ttfamily\LARGE \thetitle}
+
+\rule{2cm}{0.25pt}
+\end{center}
+
+\tabulinesep=3mm
+\begin{longtabu} to \textwidth{X[6,L,m]X[1,c,m]X[1,c,m]X[0.5,r,m]}
+    \taburowcolors 1{headcolor .. headcolor}
+    \rowfont[c]{\bfseries}%
+    product & unit price & qty. & price \tabularnewline
+    \taburowcolors 1{tablecolor1 .. tablecolor2}
+    My product 1 & 15\,€ & 10 & 150\,€\\
+    My product 2 & 25\,€ & 10 & 250\,€\\
+    My product 3 & 35\,€ & 10 & 350\,€\\
+    My product 4 & 45\,€ & 10 & 450\,€\\
+    \taburowcolors 1{headcolor .. headcolor}\tabulinesep=3mm
+    Total\footnote{\footnotestyle{example of footnote}} & & & \hbox to 0pt{\vbox to 0cm{\kern 0.61cm 1200\,€\vss}\hss}\\[3mm]
+\end{longtabu}
+
+\vfill
+
+\small
+
+\setlength{\columnsep}{1.5cm}
+\begin{multicols}{2}
+\noindent\companyname{},\\
+Auto-entrepreneur {\small (APE XXXXX)},\\
+\companyaddress{},\\
+SIREN\,: \companysiren{},\\
+\hbox to 1cm{Tél\,:\hss} \companytel,\\
+\hbox to 1cm{Mél\,:\hss} \companyemail,\\
+\hbox to 1cm{IBAN\,:\hss} \bankiban,\\
+\hbox to 1cm{BIC\,:\hss} \bankbic
+\end{multicols}
+
+\footnotestyle{\textbf{Conditions de paiement:} \conditions }
+
+\end{document}
