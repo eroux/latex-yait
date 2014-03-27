@@ -12,3 +12,5 @@ It was first used as a template for invoices specific to the French status of
 
 It is under the CC0 license (see LICENSE file) so you can easily adapt it
 without even noticing me (though I would appreciate it!).
+
+You can use it easily as a template on [WriteLaTeX](https://www.writelatex.com/templates/yet-another-invoice-template/ykjwmwqqjhgh).
